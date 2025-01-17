@@ -12,6 +12,7 @@ type postRepository struct {
 
 type PostRepository interface {
 	GetPosts() ([]domain.Post, error)
+	CreatePosts(domain.Post) error
 }
 
 func NewPostRepository(db *gorm.DB) PostRepository {
@@ -29,4 +30,9 @@ func (p *postRepository) GetPosts() ([]domain.Post, error) {
 	}
 
 	return posts, nil
+}
+
+func (p *postRepository) CreatePosts(dp domain.Post) error {
+	tx := p.DB.Create(dp)
+	return tx.Error
 }

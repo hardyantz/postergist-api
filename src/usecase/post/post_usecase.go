@@ -11,6 +11,7 @@ type postUseacase struct {
 
 type PostUc interface {
 	GetPosts() ([]domain.Post, error)
+	CreatePost(domain.Post) error
 }
 
 func NewPostUsecase(p repository.PostRepository) PostUc {
@@ -21,4 +22,8 @@ func NewPostUsecase(p repository.PostRepository) PostUc {
 
 func (p *postUseacase) GetPosts() ([]domain.Post, error) {
 	return p.postRepo.GetPosts()
+}
+
+func (p *postUseacase) CreatePost(dp domain.Post) error {
+	return p.postRepo.CreatePosts(dp)
 }
