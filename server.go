@@ -1,9 +1,10 @@
 package main
 
 import (
-	postHttp "postergist-api/src/delivery/http"
-	"postergist-api/src/repository"
-	"postergist-api/src/usecase"
+	"postergist-api/init/database"
+	postHttp "postergist-api/src/delivery/http/post"
+	postRepo "postergist-api/src/repository/post"
+	postUc "postergist-api/src/usecase/post"
 
 	"github.com/labstack/echo/v4"
 )
@@ -16,8 +17,10 @@ type Response struct {
 func main() {
 	e := echo.New()
 
-	postRepo := repository.NewPostRepository()
-	postUC := usecase.NewPostUsecase(postRepo)
+	db := database.SetupDatabase()
+
+	postRepo := postRepo.NewPostRepository(db)
+	postUC := postUc.NewPostUsecase(postRepo)
 	postHttp.NewPostHTTPHandler(e, postUC)
 
 	e.Logger.Fatal(e.Start(":1323"))

@@ -1,8 +1,8 @@
-package http
+package post
 
 import (
 	"net/http"
-	"postergist-api/src/usecase"
+	usecase "postergist-api/src/usecase/post"
 
 	"github.com/labstack/echo/v4"
 )
@@ -19,5 +19,9 @@ func NewPostHTTPHandler(e *echo.Echo, p usecase.PostUc) {
 }
 
 func (p *PostHandler) GetPost(c echo.Context) error {
-	return c.JSON(http.StatusOK, []string{"response OK"})
+	results, err := p.PostUsecase.GetPosts()
+	if err != nil {
+		return c.JSON(http.StatusNotFound, map[string]string{"response": "data not found"})
+	}
+	return c.JSON(http.StatusOK, results)
 }
