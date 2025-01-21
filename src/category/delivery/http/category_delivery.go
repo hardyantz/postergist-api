@@ -2,8 +2,8 @@ package post
 
 import (
 	"net/http"
-	domain "postergist-api/src/domain/category"
-	usecase "postergist-api/src/usecase/category"
+	domain "postergist-api/src/category/domain"
+	usecase "postergist-api/src/category/usecase"
 
 	"github.com/labstack/echo/v4"
 )
@@ -12,15 +12,15 @@ type CategoryHandler struct {
 	CategoryUsecase usecase.CategoryUc
 }
 
-func NewPostHTTPHandler(e *echo.Echo, cu usecase.CategoryUc) {
+func NewCategoryHTTPHandler(e *echo.Echo, cu usecase.CategoryUc) {
 	handler := &CategoryHandler{
 		CategoryUsecase: cu,
 	}
-	e.GET("/categories", handler.GetPost)
-	e.POST("/category", handler.CreatePost)
+	e.GET("/categories", handler.GetCategories)
+	e.POST("/category", handler.CreateCategory)
 }
 
-func (ch *CategoryHandler) GetPost(c echo.Context) error {
+func (ch *CategoryHandler) GetCategories(c echo.Context) error {
 	results, err := ch.CategoryUsecase.GetCategories()
 	if err != nil {
 		return c.JSON(http.StatusNotFound, map[string]string{"response": "data not found"})
@@ -28,7 +28,7 @@ func (ch *CategoryHandler) GetPost(c echo.Context) error {
 	return c.JSON(http.StatusOK, results)
 }
 
-func (ch *CategoryHandler) CreatePost(c echo.Context) error {
+func (ch *CategoryHandler) CreateCategory(c echo.Context) error {
 	categoryData := new(domain.Category)
 	if err := c.Bind(categoryData); err != nil {
 		return c.JSON(http.StatusBadRequest, map[string]string{"response": "invalid payload"})

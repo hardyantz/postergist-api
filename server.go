@@ -2,13 +2,13 @@ package main
 
 import (
 	"postergist-api/init/database"
-	postHttp "postergist-api/src/delivery/http/post"
-	postRepos "postergist-api/src/repository/post"
-	postUc "postergist-api/src/usecase/post"
+	postHttp "postergist-api/src/post/delivery/http"
+	postRepos "postergist-api/src/post/repository"
+	postUc "postergist-api/src/post/usecase"
 
-	catHttp "postergist-api/src/delivery/http/category"
-	catRepos "postergist-api/src/repository/category"
-	catUc "postergist-api/src/usecase/category"
+	catHttp "postergist-api/src/category/delivery/http"
+	catRepos "postergist-api/src/category/repository"
+	catUc "postergist-api/src/category/usecase"
 
 	"github.com/labstack/echo/v4"
 )
@@ -29,7 +29,7 @@ func main() {
 
 	catRepo := catRepos.NewCategoryRepository(db)
 	catUC := catUc.NewPostUsecase(catRepo)
-	catHttp.NewPostHTTPHandler(e, catUC)
+	catHttp.NewCategoryHTTPHandler(e, catUC)
 
 	e.Logger.Fatal(e.Start(":1323"))
 }

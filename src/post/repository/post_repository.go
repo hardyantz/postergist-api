@@ -1,7 +1,7 @@
 package post
 
 import (
-	domain "postergist-api/src/domain/post"
+	domain "postergist-api/src/post/domain"
 
 	"gorm.io/gorm"
 )

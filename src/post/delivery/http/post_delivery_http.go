@@ -2,8 +2,8 @@ package post
 
 import (
 	"net/http"
-	domain "postergist-api/src/domain/post"
-	usecase "postergist-api/src/usecase/post"
+	domain "postergist-api/src/post/domain"
+	usecase "postergist-api/src/post/usecase"
 
 	"github.com/labstack/echo/v4"
 )

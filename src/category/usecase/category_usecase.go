@@ -1,8 +1,8 @@
 package category
 
 import (
-	domain "postergist-api/src/domain/category"
-	repository "postergist-api/src/repository/category"
+	domain "postergist-api/src/category/domain"
+	repository "postergist-api/src/category/repository"
 )
 
 type categoryUsecase struct {

@@ -1,7 +1,7 @@
 package category
 
 import (
-	domain "postergist-api/src/domain/category"
+	domain "postergist-api/src/category/domain"
 
 	"gorm.io/gorm"
 )

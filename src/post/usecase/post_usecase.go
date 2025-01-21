@@ -1,8 +1,8 @@
 package post
 
 import (
-	domain "postergist-api/src/domain/post"
-	repository "postergist-api/src/repository/post"
+	domain "postergist-api/src/post/domain"
+	repository "postergist-api/src/post/repository"
 )
 
 type postUseacase struct {
