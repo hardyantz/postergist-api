@@ -12,6 +12,7 @@ type categoryUsecase struct {
 type CategoryUc interface {
 	GetCategories() ([]domain.Category, error)
 	CreateCategory(dc domain.Category) error
+	GetCategory(id int) (domain.Category, error)
 }
 
 func NewPostUsecase(c repository.CategoryRepository) CategoryUc {
@@ -26,4 +27,8 @@ func (c *categoryUsecase) GetCategories() ([]domain.Category, error) {
 
 func (c *categoryUsecase) CreateCategory(dc domain.Category) error {
 	return c.catRepo.CreateCategories(dc)
+}
+
+func (c *categoryUsecase) GetCategory(id int) (domain.Category, error) {
+	return c.catRepo.GetCategory(id)
 }

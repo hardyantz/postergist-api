@@ -14,6 +14,7 @@ type categoryRepository struct {
 type CategoryRepository interface {
 	GetCategories() ([]domain.Category, error)
 	CreateCategories(domain.Category) error
+	GetCategory(id int) (domain.Category, error)
 }
 
 func NewCategoryRepository(db *gorm.DB) CategoryRepository {
@@ -37,4 +38,10 @@ func (p *categoryRepository) CreateCategories(dp domain.Category) error {
 	dp.CreatedDate = helper.GetCurrentDateTime()
 	tx := p.DB.Create(&dp)
 	return tx.Error
+}
+
+func (p *categoryRepository) GetCategory(id int) (domain.Category, error) {
+	var category domain.Category
+	tx := p.DB.First(&category, id)
+	return category, tx.Error
 }

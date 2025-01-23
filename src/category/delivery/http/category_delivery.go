@@ -4,6 +4,7 @@ import (
 	"net/http"
 	domain "postergist-api/src/category/domain"
 	usecase "postergist-api/src/category/usecase"
+	"strconv"
 
 	"github.com/labstack/echo/v4"
 )
@@ -18,6 +19,7 @@ func NewCategoryHTTPHandler(e *echo.Echo, cu usecase.CategoryUc) {
 	}
 	e.GET("/categories", handler.GetCategories)
 	e.POST("/category", handler.CreateCategory)
+	e.GET("/category/:id", handler.GetCategory)
 }
 
 func (ch *CategoryHandler) GetCategories(c echo.Context) error {
@@ -38,4 +40,17 @@ func (ch *CategoryHandler) CreateCategory(c echo.Context) error {
 	}
 
 	return c.JSON(http.StatusCreated, map[string]string{"response": "data successfully created"})
+}
+
+func (p *CategoryHandler) GetCategory(c echo.Context) error {
+	catId, err := strconv.Atoi(c.Param("id"))
+	if err != nil {
+		return c.JSON(http.StatusBadRequest, map[string]string{"response": "id not found"})
+	}
+
+	results, err := p.CategoryUsecase.GetCategory(catId)
+	if err != nil {
+		return c.JSON(http.StatusNotFound, map[string]string{"response": "data not found"})
+	}
+	return c.JSON(http.StatusOK, results)
 }

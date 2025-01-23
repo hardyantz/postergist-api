@@ -14,6 +14,7 @@ type postRepository struct {
 type PostRepository interface {
 	GetPosts() ([]domain.Post, error)
 	CreatePosts(domain.Post) error
+	GetPost(id int) (domain.Post, error)
 }
 
 func NewPostRepository(db *gorm.DB) PostRepository {
@@ -37,4 +38,10 @@ func (p *postRepository) CreatePosts(dp domain.Post) error {
 	dp.CreatedDate = helper.GetCurrentDateTime()
 	tx := p.DB.Create(&dp)
 	return tx.Error
+}
+
+func (p *postRepository) GetPost(id int) (domain.Post, error) {
+	var post domain.Post
+	tx := p.DB.First(&post, id)
+	return post, tx.Error
 }

@@ -5,25 +5,30 @@ import (
 	repository "postergist-api/src/post/repository"
 )
 
-type postUseacase struct {
+type postUsecase struct {
 	postRepo repository.PostRepository
 }
 
 type PostUc interface {
 	GetPosts() ([]domain.Post, error)
 	CreatePost(domain.Post) error
+	GetPost(id int) (domain.Post, error)
 }
 
 func NewPostUsecase(p repository.PostRepository) PostUc {
-	return &postUseacase{
+	return &postUsecase{
 		postRepo: p,
 	}
 }
 
-func (p *postUseacase) GetPosts() ([]domain.Post, error) {
+func (p *postUsecase) GetPosts() ([]domain.Post, error) {
 	return p.postRepo.GetPosts()
 }
 
-func (p *postUseacase) CreatePost(dp domain.Post) error {
+func (p *postUsecase) CreatePost(dp domain.Post) error {
 	return p.postRepo.CreatePosts(dp)
+}
+
+func (p *postUsecase) GetPost(id int) (domain.Post, error) {
+	return p.postRepo.GetPost(id)
 }
