@@ -1,6 +1,7 @@
 package category
 
 import (
+	"postergist-api/helper"
 	domain "postergist-api/src/category/domain"
 
 	"gorm.io/gorm"
@@ -33,6 +34,7 @@ func (c *categoryRepository) GetCategories() ([]domain.Category, error) {
 }
 
 func (p *categoryRepository) CreateCategories(dp domain.Category) error {
-	tx := p.DB.Create(dp)
+	dp.CreatedDate = helper.GetCurrentDateTime()
+	tx := p.DB.Create(&dp)
 	return tx.Error
 }

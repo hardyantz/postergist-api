@@ -1,6 +1,7 @@
 package post
 
 import (
+	"postergist-api/helper"
 	domain "postergist-api/src/post/domain"
 
 	"gorm.io/gorm"
@@ -33,6 +34,7 @@ func (p *postRepository) GetPosts() ([]domain.Post, error) {
 }
 
 func (p *postRepository) CreatePosts(dp domain.Post) error {
-	tx := p.DB.Create(dp)
+	dp.CreatedDate = helper.GetCurrentDateTime()
+	tx := p.DB.Create(&dp)
 	return tx.Error
 }
