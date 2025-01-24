@@ -13,6 +13,7 @@ type PostUc interface {
 	GetPosts() ([]domain.Post, error)
 	CreatePost(domain.Post) error
 	GetPost(id int) (domain.Post, error)
+	GetPostByCategory(idCat int) ([]domain.Post, error)
 }
 
 func NewPostUsecase(p repository.PostRepository) PostUc {
@@ -31,4 +32,8 @@ func (p *postUsecase) CreatePost(dp domain.Post) error {
 
 func (p *postUsecase) GetPost(id int) (domain.Post, error) {
 	return p.postRepo.GetPost(id)
+}
+
+func (p *postUsecase) GetPostByCategory(idCat int) ([]domain.Post, error) {
+	return p.postRepo.GetPostByCategory(idCat)
 }

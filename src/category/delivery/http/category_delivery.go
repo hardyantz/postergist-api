@@ -20,6 +20,7 @@ func NewCategoryHTTPHandler(e *echo.Echo, cu usecase.CategoryUc) {
 	e.GET("/categories", handler.GetCategories)
 	e.POST("/category", handler.CreateCategory)
 	e.GET("/category/:id", handler.GetCategory)
+	e.GET("/category/:id/posts", handler.GetPostByCategory)
 }
 
 func (ch *CategoryHandler) GetCategories(c echo.Context) error {
@@ -53,4 +54,8 @@ func (p *CategoryHandler) GetCategory(c echo.Context) error {
 		return c.JSON(http.StatusNotFound, map[string]string{"response": "data not found"})
 	}
 	return c.JSON(http.StatusOK, results)
+}
+
+func (p *CategoryHandler) GetPostByCategory(c echo.Context) error {
+	return nil
 }

@@ -18,6 +18,7 @@ type PostRepository interface {
 	GetPosts() ([]domain.Post, error)
 	CreatePosts(domain.Post) error
 	GetPost(id int) (domain.Post, error)
+	GetPostByCategory(idCat int) ([]domain.Post, error)
 }
 
 func NewPostRepository(db *gorm.DB) PostRepository {
@@ -56,4 +57,20 @@ func (p *postRepository) GetPost(id int) (domain.Post, error) {
 	var post domain.Post
 	tx := p.DB.First(&post, id)
 	return post, tx.Error
+}
+
+func (p *postRepository) GetPostByCategory(idCat int) ([]domain.Post, error) {
+	isCatExists, err := p.catRepo.GetCategory(idCat)
+	if err != nil {
+		return nil, fmt.Errorf("category not found")
+	}
+	if isCatExists.ID == 0 {
+		return nil, fmt.Errorf("category id is null")
+	}
+
+	var posts []domain.Post
+
+	tx := p.DB.Where("category_id = ?", idCat).Find(&posts)
+
+	return posts, tx.Error
 }

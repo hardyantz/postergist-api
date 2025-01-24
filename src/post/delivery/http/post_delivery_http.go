@@ -20,6 +20,7 @@ func NewPostHTTPHandler(e *echo.Echo, p usecase.PostUc) {
 	e.GET("/posts", handler.GetPosts)
 	e.POST("/post", handler.CreatePost)
 	e.GET("/post/:id", handler.GetPost)
+	e.GET("/posts/category/:idCat", handler.GetPostsByCategory)
 }
 
 func (p *PostHandler) GetPosts(c echo.Context) error {
@@ -52,5 +53,19 @@ func (p *PostHandler) GetPost(c echo.Context) error {
 	if err != nil {
 		return c.JSON(http.StatusNotFound, map[string]string{"response": "data not found"})
 	}
+	return c.JSON(http.StatusOK, results)
+}
+
+func (p *PostHandler) GetPostsByCategory(c echo.Context) error {
+	idCat, err := strconv.Atoi(c.Param("idCat"))
+	if err != nil {
+		return c.JSON(http.StatusBadRequest, map[string]string{"response": "id not found"})
+	}
+
+	results, err := p.PostUsecase.GetPostByCategory(idCat)
+	if err != nil {
+		return c.JSON(http.StatusNotFound, map[string]string{"response": "data not found"})
+	}
+
 	return c.JSON(http.StatusOK, results)
 }
