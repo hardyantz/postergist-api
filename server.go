@@ -11,6 +11,7 @@ import (
 	catUc "postergist-api/src/category/usecase"
 
 	"github.com/labstack/echo/v4"
+	"github.com/labstack/echo/v4/middleware"
 )
 
 type Response struct {
@@ -20,6 +21,10 @@ type Response struct {
 
 func main() {
 	e := echo.New()
+
+	e.Use(middleware.CORSWithConfig(middleware.CORSConfig{
+		AllowOrigins: []string{"*"},
+	}))
 
 	db := database.SetupDatabase()
 
